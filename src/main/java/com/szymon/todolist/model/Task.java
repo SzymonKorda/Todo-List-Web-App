@@ -42,6 +42,7 @@ public class Task {
     private Task(Builder builder) {
         this.title = builder.title;
         this.description = builder.description;
+        this.user = builder.user;
         this.isActive = true;
     }
 
@@ -100,6 +101,7 @@ public class Task {
     public static class Builder {
         private String title;
         private String description;
+        private User user;
 
         public Builder withTitle(String title) {
             this.title = title;
@@ -108,6 +110,11 @@ public class Task {
 
         public Builder withDescription(String description) {
             this.description = description;
+            return this;
+        }
+
+        public Builder withUser(User user) {
+            this.user = user;
             return this;
         }
 

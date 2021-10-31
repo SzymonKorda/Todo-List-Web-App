@@ -24,90 +24,72 @@ public class TaskServiceImpl implements TaskService{
 
     @Override
     public Task newTask(TaskRequest taskRequest) {
-        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
-        Long userId = userDetails.getId();
-        User user = userRepository
-                .findById(userId)
-                .orElseThrow(() -> new NotFoundException(String.format("User with id %d not found", userId)));
-        Task task = new Task
-                .Builder()
-                .withTitle(taskRequest.getTitle())
-                .withDescription(taskRequest.getDescription())
-                .build();
+        User user = getUser();
+        Task task = buildTask(taskRequest, user);
         user.getTasks().add(task);
-        task.setUser(user);
         userRepository.save(user);
         return task;
     }
 
     @Override
     public Task getTask(Integer id) {
-        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
-        Long userId = userDetails.getId();
-        User user = userRepository
-                .findById(userId)
-                .orElseThrow(() -> new NotFoundException(String.format("User with id %d not found", userId)));
-        return taskRepository
-                .findTaskByUserAndId(user, id)
-                .orElseThrow(() -> new NotFoundException(String.format("Task with id %d not found", id)));
+        User user = getUser();
+        return getTaskByUser(id, user);
     }
 
     @Override
     public Task updateTask(Integer id, TaskRequest taskRequest) {
-        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
-        Long userId = userDetails.getId();
-        User user = userRepository
-                .findById(userId)
-                .orElseThrow(() -> new NotFoundException(String.format("User with id %d not found", userId)));
-        Task task = taskRepository
-                .findTaskByUserAndId(user, id)
-                .orElseThrow(() -> new NotFoundException(String.format("Task with id %d not found", id)));
-
-        if (taskRequest.getTitle() != null) {
-            task.setTitle(taskRequest.getTitle());
-        }
-        if (taskRequest.getDescription() != null) {
-            task.setDescription(taskRequest.getDescription());
-
-        }
+        User user = getUser();
+        Task task = getTaskByUser(id, user);
+        updateDescriptionAndTitle(taskRequest, task);
         return taskRepository.save(task);
     }
 
     @Override
     public void deleteTask(Integer id) {
-        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
-        Long userId = userDetails.getId();
-        User user = userRepository
-                .findById(userId)
-                .orElseThrow(() -> new NotFoundException(String.format("User with id %d not found", userId)));
-        Task task = taskRepository
-                .findTaskByUserAndId(user, id)
-                .orElseThrow(() -> new NotFoundException(String.format("Task with id %d not found", id)));
+        User user = getUser();
+        Task task = getTaskByUser(id, user);
         taskRepository.delete(task);
     }
 
     @Override
     public List<Task> getUserTasks() {
+        User user = getUser();
+        return user.getTasks();
+    }
+
+    private User getUser() {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();
         Long userId = userDetails.getId();
-        User user = userRepository
+        return userRepository
                 .findById(userId)
                 .orElseThrow(() -> new NotFoundException(String.format("User with id %d not found", userId)));
-        return user.getTasks();
+    }
+
+    private Task getTaskByUser(Integer id, User user) {
+        return taskRepository
+                .findTaskByUserAndId(user, id)
+                .orElseThrow(() -> new NotFoundException(String.format("Task with id %d not found", id)));
+    }
+
+    private Task buildTask(TaskRequest taskRequest, User user) {
+        return new Task
+                .Builder()
+                .withTitle(taskRequest.getTitle())
+                .withDescription(taskRequest.getDescription())
+                .withUser(user)
+                .build();
+    }
+
+    private void updateDescriptionAndTitle(TaskRequest taskRequest, Task task) {
+        if (taskRequest.getTitle() != null) {
+            task.setTitle(taskRequest.getTitle());
+        }
+        if (taskRequest.getDescription() != null) {
+            task.setDescription(taskRequest.getDescription());
+        }
     }
 }
