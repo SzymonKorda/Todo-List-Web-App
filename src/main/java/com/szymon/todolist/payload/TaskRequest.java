@@ -1,7 +1,15 @@
 package com.szymon.todolist.payload;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class TaskRequest {
+    @NotBlank
+    @Size(max = 50)
     private String title;
+
+    @NotBlank
+    @Size(max = 200)
     private String description;
 
     public void setTitle(String title) {

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
 public class TaskController {
@@ -51,6 +52,13 @@ public class TaskController {
     public ResponseEntity<?> getTasks() {
         List<Task> tasks = taskService.getUserTasks();
         return new ResponseEntity<>(tasks, HttpStatus.OK);
+    }
+
+    @PostMapping("/task/{id}/finish")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> finishTask(@PathVariable Integer id) {
+        taskService.finishTask(id);
+        return new ResponseEntity<>("Task finished successfully!", HttpStatus.CREATED);
     }
 
 }

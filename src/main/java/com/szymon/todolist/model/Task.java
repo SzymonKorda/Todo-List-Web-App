@@ -82,8 +82,8 @@ public class Task {
         return isActive;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
     }
 
     public boolean isActive() {

@@ -58,6 +58,14 @@ public class TaskServiceImpl implements TaskService{
         return user.getTasks();
     }
 
+    @Override
+    public void finishTask(Integer id) {
+        User user = getUser();
+        Task task = getTaskByUser(id, user);
+        task.setActive(false);
+        taskRepository.save(task);
+    }
+
     private User getUser() {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder
                 .getContext()
