@@ -18,26 +18,24 @@ public class Task {
     @Column(name = "title", length = 50, nullable = false)
     private String title;
 
-    @Column(name = "description", columnDefinition="TEXT")
+    @Column(name = "description", length = 200, nullable = false)
     private String description;
 
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", timezone="Europe/Zagreb")
     @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_on")
+//    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_on", nullable = false)
     private Date createdOn;
 
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", timezone="Europe/Zagreb")
-    @Temporal(TemporalType.TIMESTAMP)
+//    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "finished_on")
     private Date finishedOn;
 
-    @Column(name = "is_active")
+    @Column(name = "is_active", nullable = false)
     private boolean isActive;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnore
+//    @JsonIgnore
     private User user;
 
     protected Task() {
