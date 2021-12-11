@@ -2,6 +2,7 @@ package com.szymon.todolist.controller;
 
 import com.szymon.todolist.model.Task;
 import com.szymon.todolist.payload.TaskRequest;
+import com.szymon.todolist.payload.TaskResponse;
 import com.szymon.todolist.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,8 +30,8 @@ public class TaskController {
     @GetMapping("/task/{id}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> getTask(@PathVariable Integer id) {
-        Task task = taskService.getTask(id);
-        return new ResponseEntity<>(task, HttpStatus.OK);
+        TaskResponse response = taskService.getTask(id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("/task/{id}")

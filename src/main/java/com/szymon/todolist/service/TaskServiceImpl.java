@@ -3,6 +3,7 @@ package com.szymon.todolist.service;
 import com.szymon.todolist.exception.NotFoundException;
 import com.szymon.todolist.model.Task;
 import com.szymon.todolist.payload.TaskRequest;
+import com.szymon.todolist.payload.TaskResponse;
 import com.szymon.todolist.reposotiry.TaskRepository;
 import com.szymon.todolist.security.User;
 import com.szymon.todolist.security.UserDetailsImpl;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -23,18 +25,16 @@ public class TaskServiceImpl implements TaskService{
     private UserRepository userRepository;
 
     @Override
-    public Task newTask(TaskRequest taskRequest) {
+    public void newTask(TaskRequest taskRequest) {
         User user = getUser();
         Task task = buildTask(taskRequest, user);
         user.getTasks().add(task);
         userRepository.save(user);
-        return task;
     }
 
     @Override
-    public Task getTask(Integer id) {
-        User user = getUser();
-        return getTaskByUser(id, user);
+    public TaskResponse getTask(Integer id) {
+        return mapTaskToTaskResponse(getTaskByUser(id, getUser()));
     }
 
     @Override
@@ -63,6 +63,7 @@ public class TaskServiceImpl implements TaskService{
         User user = getUser();
         Task task = getTaskByUser(id, user);
         task.setActive(false);
+        task.setFinishedOn(new Date());
         taskRepository.save(task);
     }
 
@@ -99,5 +100,15 @@ public class TaskServiceImpl implements TaskService{
         if (taskRequest.getDescription() != null) {
             task.setDescription(taskRequest.getDescription());
         }
+    }
+
+    private TaskResponse mapTaskToTaskResponse(Task task) {
+        return new TaskResponse.Builder(task.getId())
+                .withTitle(task.getTitle())
+                .withDescription(task.getDescription())
+                .withCreatedOn(task.getCreatedOn())
+                .withFinishedOn(task.getFinishedOn())
+                .withIsActive(task.isActive())
+                .build();
     }
 }

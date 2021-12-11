@@ -21,11 +21,16 @@ public class Task {
     @Column(name = "description", columnDefinition="TEXT")
     private String description;
 
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", timezone="Europe/Zagreb")
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_on")
     private Date createdOn;
+
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", timezone="Europe/Zagreb")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "finished_on")
+    private Date finishedOn;
 
     @Column(name = "is_active")
     private boolean isActive;
@@ -64,6 +69,14 @@ public class Task {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Date getFinishedOn() {
+        return finishedOn;
+    }
+
+    public void setFinishedOn(Date finishedOn) {
+        this.finishedOn = finishedOn;
     }
 
     public void setTitle(String title) {
