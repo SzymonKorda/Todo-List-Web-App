@@ -1,9 +1,11 @@
 package com.szymon.todolist.service;
 
 import com.szymon.todolist.exception.NotFoundException;
+import com.szymon.todolist.mapper.TaskMapper;
 import com.szymon.todolist.model.Task;
+import com.szymon.todolist.payload.SimpleTaskResponse;
 import com.szymon.todolist.payload.TaskRequest;
-import com.szymon.todolist.payload.TaskResponse;
+import com.szymon.todolist.payload.FullTaskResponse;
 import com.szymon.todolist.reposotiry.TaskRepository;
 import com.szymon.todolist.security.User;
 import com.szymon.todolist.security.UserDetailsImpl;
@@ -14,9 +16,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import static java.util.function.Predicate.*;
+
 
 @Service
-public class TaskServiceImpl implements TaskService{
+public class TaskServiceImpl implements TaskService {
 
     @Autowired
     private TaskRepository taskRepository;
@@ -24,50 +29,66 @@ public class TaskServiceImpl implements TaskService{
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private TaskMapper mapper;
+
     @Override
     public void newTask(TaskRequest taskRequest) {
-        User user = getUser();
-        Task task = buildTask(taskRequest, user);
-        user.getTasks().add(task);
+        User user = getCurrentUser();
+        user.getTasks().add(buildTask(taskRequest, user));
         userRepository.save(user);
     }
 
     @Override
-    public TaskResponse getTask(Integer id) {
-        return mapTaskToTaskResponse(getTaskByUser(id, getUser()));
+    public FullTaskResponse getTask(Integer id) {
+        return mapper.mapTaskToFullTaskResponse(getTaskByUser(id, getCurrentUser()));
     }
 
     @Override
-    public Task updateTask(Integer id, TaskRequest taskRequest) {
-        User user = getUser();
-        Task task = getTaskByUser(id, user);
-        updateDescriptionAndTitle(taskRequest, task);
-        return taskRepository.save(task);
+    public void updateTask(Integer id, TaskRequest taskRequest) {
+        Task updatedTask = getTaskByUser(id, getCurrentUser());
+        updatedTask.setTitle(taskRequest.getTitle());
+        updatedTask.setDescription(taskRequest.getDescription());
+        taskRepository.save(updatedTask);
     }
 
     @Override
     public void deleteTask(Integer id) {
-        User user = getUser();
-        Task task = getTaskByUser(id, user);
-        taskRepository.delete(task);
+        taskRepository.delete(getTaskByUser(id, getCurrentUser()));
     }
 
     @Override
-    public List<Task> getUserTasks() {
-        User user = getUser();
-        return user.getTasks();
+    public List<FullTaskResponse> getUserTasks() {
+        return getCurrentUser().getTasks().stream()
+                .map(mapper::mapTaskToFullTaskResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SimpleTaskResponse> getUserActiveTasks() {
+        return getCurrentUser().getTasks().stream()
+                .filter(Task::isActive)
+                .map(mapper::mapTaskToSimpleTaskResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<FullTaskResponse> getUserFinishedTasks() {
+        return getCurrentUser().getTasks().stream()
+                .filter(not(Task::isActive))
+                .map(mapper::mapTaskToFullTaskResponse)
+                .collect(Collectors.toList());
     }
 
     @Override
     public void finishTask(Integer id) {
-        User user = getUser();
-        Task task = getTaskByUser(id, user);
+        Task task = getTaskByUser(id, getCurrentUser());
         task.setActive(false);
         task.setFinishedOn(new Date());
         taskRepository.save(task);
     }
 
-    private User getUser() {
+    private User getCurrentUser() {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
@@ -85,30 +106,10 @@ public class TaskServiceImpl implements TaskService{
     }
 
     private Task buildTask(TaskRequest taskRequest, User user) {
-        return new Task
-                .Builder()
+        return new Task.Builder()
                 .withTitle(taskRequest.getTitle())
                 .withDescription(taskRequest.getDescription())
                 .withUser(user)
-                .build();
-    }
-
-    private void updateDescriptionAndTitle(TaskRequest taskRequest, Task task) {
-        if (taskRequest.getTitle() != null) {
-            task.setTitle(taskRequest.getTitle());
-        }
-        if (taskRequest.getDescription() != null) {
-            task.setDescription(taskRequest.getDescription());
-        }
-    }
-
-    private TaskResponse mapTaskToTaskResponse(Task task) {
-        return new TaskResponse.Builder(task.getId())
-                .withTitle(task.getTitle())
-                .withDescription(task.getDescription())
-                .withCreatedOn(task.getCreatedOn())
-                .withFinishedOn(task.getFinishedOn())
-                .withIsActive(task.isActive())
                 .build();
     }
 }

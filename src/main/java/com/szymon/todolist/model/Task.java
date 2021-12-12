@@ -22,11 +22,9 @@ public class Task {
     private String description;
 
     @CreationTimestamp
-//    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_on", nullable = false)
     private Date createdOn;
 
-//    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "finished_on")
     private Date finishedOn;
 
@@ -35,7 +33,6 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-//    @JsonIgnore
     private User user;
 
     protected Task() {

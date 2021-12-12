@@ -4,12 +4,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.ZonedDateTime;
 
-public class ApiException {
+public class ExceptionResponse {
     private final String message;
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private final ZonedDateTime timestamp;
 
-    public ApiException(String message, ZonedDateTime timestamp) {
+    public ExceptionResponse(String message, ZonedDateTime timestamp) {
         this.message = message;
         this.timestamp = timestamp;
     }

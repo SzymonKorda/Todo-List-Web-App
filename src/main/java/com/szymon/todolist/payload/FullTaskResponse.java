@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
-public class TaskResponse {
+public class FullTaskResponse {
     private final Integer id;
     private final String title;
     private final String description;
@@ -41,7 +41,7 @@ public class TaskResponse {
         return isActive;
     }
 
-    private TaskResponse(Builder builder) {
+    private FullTaskResponse(Builder builder) {
         this.id = builder.id;
         this.title = builder.title;
         this.description = builder.description;
@@ -87,8 +87,8 @@ public class TaskResponse {
             return this;
         }
 
-        public TaskResponse build() {
-            return new TaskResponse(this);
+        public FullTaskResponse build() {
+            return new FullTaskResponse(this);
         }
 
     }
