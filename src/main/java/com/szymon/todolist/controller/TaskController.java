@@ -4,6 +4,8 @@ import com.szymon.todolist.payload.SimpleTaskResponse;
 import com.szymon.todolist.payload.TaskRequest;
 import com.szymon.todolist.payload.FullTaskResponse;
 import com.szymon.todolist.service.TaskService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +18,13 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
+@Api(tags = "Tasks")
 public class TaskController {
 
     @Autowired
     private TaskService taskService;
 
+    @ApiOperation(value = "This method is used to create a new task.")
     @PostMapping("/task")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> createTask(@Valid @RequestBody TaskRequest taskRequest) {
@@ -28,6 +32,7 @@ public class TaskController {
         return new ResponseEntity<>("Task created successfully!", HttpStatus.CREATED);
     }
 
+    @ApiOperation(value = "This method is used to get full task information.")
     @GetMapping("/task/{id}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> getTask(@PathVariable Integer id) {
@@ -35,6 +40,7 @@ public class TaskController {
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "This method is used to get all user's tasks.")
     @GetMapping("/task")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> getUserTasks() {
@@ -42,6 +48,7 @@ public class TaskController {
         return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "This method is used to get user's active tasks.")
     @GetMapping("/task/active")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> getUserActiveTasks() {
@@ -49,6 +56,7 @@ public class TaskController {
         return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "This method is used to get user's finished tasks.")
     @GetMapping("/task/finish")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> getUserFinishedTasks() {
@@ -56,6 +64,7 @@ public class TaskController {
         return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "This method is used to update task.")
     @PutMapping("/task/{id}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updateTask(@PathVariable Integer id, @Valid @RequestBody TaskRequest taskRequest) {
@@ -63,6 +72,7 @@ public class TaskController {
         return new ResponseEntity<>("Task updated successfully!", HttpStatus.OK);
     }
 
+    @ApiOperation(value = "This method is used to delete task.")
     @DeleteMapping("/task/{id}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> deleteTask(@PathVariable Integer id) {
@@ -70,6 +80,7 @@ public class TaskController {
         return new ResponseEntity<>("Task deleted successfully!", HttpStatus.OK);
     }
 
+    @ApiOperation(value = "This method is used to finish task.")
     @PostMapping("/task/{id}/finish")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> finishTask(@PathVariable Integer id) {
@@ -78,3 +89,4 @@ public class TaskController {
     }
 
 }
+
