@@ -3,11 +3,9 @@ package com.szymon.todolist.mapper;
 import com.szymon.todolist.model.Task;
 import com.szymon.todolist.payload.FullTaskResponse;
 import com.szymon.todolist.payload.SimpleTaskResponse;
-import org.springframework.stereotype.Component;
 
-@Component
 public class TaskMapper {
-    public FullTaskResponse mapTaskToFullTaskResponse(Task task) {
+    public static FullTaskResponse mapTaskToFullTaskResponse(Task task) {
         return new FullTaskResponse.Builder(task.getId())
                 .withTitle(task.getTitle())
                 .withDescription(task.getDescription())
@@ -17,7 +15,7 @@ public class TaskMapper {
                 .build();
     }
 
-    public SimpleTaskResponse mapTaskToSimpleTaskResponse(Task task) {
+    public static SimpleTaskResponse mapTaskToSimpleTaskResponse(Task task) {
         return new SimpleTaskResponse.Builder(task.getId())
                 .withTitle(task.getTitle())
                 .withDescription(task.getDescription())

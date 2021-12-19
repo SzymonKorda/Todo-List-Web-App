@@ -29,9 +29,6 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private TaskMapper mapper;
-
     @Override
     public void newTask(TaskRequest taskRequest) {
         User user = getCurrentUser();
@@ -41,7 +38,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public FullTaskResponse getTask(Integer id) {
-        return mapper.mapTaskToFullTaskResponse(getTaskByUser(id, getCurrentUser()));
+        return TaskMapper.mapTaskToFullTaskResponse(getTaskByUser(id, getCurrentUser()));
     }
 
     @Override
@@ -60,7 +57,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<FullTaskResponse> getUserTasks() {
         return getCurrentUser().getTasks().stream()
-                .map(mapper::mapTaskToFullTaskResponse)
+                .map(TaskMapper::mapTaskToFullTaskResponse)
                 .collect(Collectors.toList());
     }
 
@@ -68,7 +65,7 @@ public class TaskServiceImpl implements TaskService {
     public List<SimpleTaskResponse> getUserActiveTasks() {
         return getCurrentUser().getTasks().stream()
                 .filter(Task::isActive)
-                .map(mapper::mapTaskToSimpleTaskResponse)
+                .map(TaskMapper::mapTaskToSimpleTaskResponse)
                 .collect(Collectors.toList());
     }
 
@@ -76,7 +73,7 @@ public class TaskServiceImpl implements TaskService {
     public List<FullTaskResponse> getUserFinishedTasks() {
         return getCurrentUser().getTasks().stream()
                 .filter(not(Task::isActive))
-                .map(mapper::mapTaskToFullTaskResponse)
+                .map(TaskMapper::mapTaskToFullTaskResponse)
                 .collect(Collectors.toList());
     }
 
