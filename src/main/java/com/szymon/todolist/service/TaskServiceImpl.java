@@ -4,6 +4,7 @@ import com.szymon.todolist.exception.NotFoundException;
 import com.szymon.todolist.mapper.TaskMapper;
 import com.szymon.todolist.model.Task;
 import com.szymon.todolist.payload.SimpleTaskResponse;
+import com.szymon.todolist.payload.TaskCountResponse;
 import com.szymon.todolist.payload.TaskRequest;
 import com.szymon.todolist.payload.FullTaskResponse;
 import com.szymon.todolist.reposotiry.TaskRepository;
@@ -85,6 +86,12 @@ public class TaskServiceImpl implements TaskService {
         taskRepository.save(task);
     }
 
+    @Override
+    public TaskCountResponse getUserTaskCount() {
+        User user = getCurrentUser();
+        return prepareTaskCountResponse(user);
+    }
+
     private User getCurrentUser() {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder
                 .getContext()
@@ -94,6 +101,13 @@ public class TaskServiceImpl implements TaskService {
         return userRepository
                 .findById(userId)
                 .orElseThrow(() -> new NotFoundException(String.format("User with id %d not found", userId)));
+    }
+
+    private TaskCountResponse prepareTaskCountResponse(User user) {
+        TaskCountResponse taskCount = new TaskCountResponse();
+        taskCount.setActiveCount(user.getTasks().stream().filter(Task::isActive).count());
+        taskCount.setFinishedCount(user.getTasks().stream().filter(not(Task::isActive)).count());
+        return taskCount;
     }
 
     private Task getTaskByUser(Integer id, User user) {

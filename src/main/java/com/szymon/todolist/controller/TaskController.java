@@ -1,6 +1,7 @@
 package com.szymon.todolist.controller;
 
 import com.szymon.todolist.payload.SimpleTaskResponse;
+import com.szymon.todolist.payload.TaskCountResponse;
 import com.szymon.todolist.payload.TaskRequest;
 import com.szymon.todolist.payload.FullTaskResponse;
 import com.szymon.todolist.service.TaskService;
@@ -86,6 +87,14 @@ public class TaskController {
     public ResponseEntity<?> finishTask(@PathVariable Integer id) {
         taskService.finishTask(id);
         return new ResponseEntity<>("Task finished successfully!", HttpStatus.CREATED);
+    }
+
+    @ApiOperation(value = "This method is used to get user's finished and active task count")
+    @GetMapping("/task/count")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> getUserTaskCount() {
+        TaskCountResponse response = taskService.getUserTaskCount();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

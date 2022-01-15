@@ -1,6 +1,7 @@
 package com.szymon.todolist.service;
 
 import com.szymon.todolist.payload.SimpleTaskResponse;
+import com.szymon.todolist.payload.TaskCountResponse;
 import com.szymon.todolist.payload.TaskRequest;
 import com.szymon.todolist.payload.FullTaskResponse;
 
@@ -15,4 +16,5 @@ public interface TaskService {
     List<FullTaskResponse> getUserTasks();
     List<SimpleTaskResponse> getUserActiveTasks();
     List<FullTaskResponse> getUserFinishedTasks();
+    TaskCountResponse getUserTaskCount();
 }
