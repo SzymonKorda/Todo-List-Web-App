@@ -3,32 +3,33 @@ package com.szymon.todolist.service;
 import com.szymon.todolist.exception.NotFoundException;
 import com.szymon.todolist.mapper.TaskMapper;
 import com.szymon.todolist.model.Task;
+import com.szymon.todolist.payload.FullTaskResponse;
 import com.szymon.todolist.payload.SimpleTaskResponse;
 import com.szymon.todolist.payload.TaskCountResponse;
 import com.szymon.todolist.payload.TaskRequest;
-import com.szymon.todolist.payload.FullTaskResponse;
 import com.szymon.todolist.reposotiry.TaskRepository;
 import com.szymon.todolist.security.User;
 import com.szymon.todolist.security.UserDetailsImpl;
 import com.szymon.todolist.security.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-import static java.util.function.Predicate.*;
 
+import static java.util.function.Predicate.not;
 
 @Service
 public class TaskServiceImpl implements TaskService {
 
-    @Autowired
-    private TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    public TaskServiceImpl(TaskRepository taskRepository, UserRepository userRepository) {
+        this.taskRepository = taskRepository;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public void newTask(TaskRequest taskRequest) {
