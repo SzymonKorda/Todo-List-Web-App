@@ -1,4 +1,4 @@
-package com.szymon.todolist.security;
+package com.szymon.todolist.security.user;
 
 public enum ERole {
     ROLE_USER,

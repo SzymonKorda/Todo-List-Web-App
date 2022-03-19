@@ -1,4 +1,4 @@
-package com.szymon.todolist.payload;
+package com.szymon.todolist.payload.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

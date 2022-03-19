@@ -1,6 +1,7 @@
-package com.szymon.todolist.security;
+package com.szymon.todolist.security.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.szymon.todolist.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

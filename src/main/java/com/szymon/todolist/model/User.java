@@ -1,6 +1,7 @@
-package com.szymon.todolist.security;
+package com.szymon.todolist.model;
 
 
+import com.szymon.todolist.model.Role;
 import com.szymon.todolist.model.Task;
 
 import javax.persistence.*;

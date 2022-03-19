@@ -1,4 +1,4 @@
-package com.szymon.todolist.security;
+package com.szymon.todolist.security.user;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

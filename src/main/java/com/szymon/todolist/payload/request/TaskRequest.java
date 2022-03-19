@@ -1,4 +1,4 @@
-package com.szymon.todolist.payload;
+package com.szymon.todolist.payload.request;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;

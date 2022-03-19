@@ -1,4 +1,4 @@
-package com.szymon.todolist.security;
+package com.szymon.todolist.security.jwt;
 
 import java.io.IOException;
 

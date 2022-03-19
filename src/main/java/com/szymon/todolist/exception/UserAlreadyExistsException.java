@@ -1,7 +1,7 @@
 package com.szymon.todolist.exception;
 
-public class BadRequestException extends RuntimeException {
-    public BadRequestException(String message) {
+public class UserAlreadyExistsException extends RuntimeException {
+    public UserAlreadyExistsException(String message) {
         super(message);
     }
 }

@@ -1,6 +1,5 @@
 package com.szymon.todolist.model;
 
-import com.szymon.todolist.security.User;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;

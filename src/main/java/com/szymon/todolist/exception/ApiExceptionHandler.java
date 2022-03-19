@@ -22,6 +22,15 @@ public class ApiExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(value = {UserAlreadyExistsException.class})
+    public ResponseEntity<?> handleApiRequestException(UserAlreadyExistsException e) {
+        ExceptionResponse response = new ExceptionResponse(
+                e.getMessage(),
+                ZonedDateTime.now()
+        );
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
     public ResponseEntity<?> handleApiRequestException(MethodArgumentNotValidException e) {
         List<String> errors = e.getBindingResult().getAllErrors().stream()

@@ -1,7 +1,8 @@
-package com.szymon.todolist.security;
+package com.szymon.todolist.security.jwt;
 
 import java.util.Date;
 
+import com.szymon.todolist.security.user.UserDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

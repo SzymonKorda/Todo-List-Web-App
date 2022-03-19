@@ -1,9 +1,9 @@
 package com.szymon.todolist.controller;
 
-import com.szymon.todolist.payload.SimpleTaskResponse;
-import com.szymon.todolist.payload.TaskCountResponse;
-import com.szymon.todolist.payload.TaskRequest;
-import com.szymon.todolist.payload.FullTaskResponse;
+import com.szymon.todolist.payload.response.SimpleTaskResponse;
+import com.szymon.todolist.payload.response.TaskCountResponse;
+import com.szymon.todolist.payload.request.TaskRequest;
+import com.szymon.todolist.payload.response.FullTaskResponse;
 import com.szymon.todolist.service.TaskService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

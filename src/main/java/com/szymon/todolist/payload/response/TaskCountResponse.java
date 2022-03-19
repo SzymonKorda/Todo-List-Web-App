@@ -1,4 +1,4 @@
-package com.szymon.todolist.payload;
+package com.szymon.todolist.payload.response;
 
 public class TaskCountResponse {
     private long activeCount;

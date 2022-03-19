@@ -1,5 +1,6 @@
-package com.szymon.todolist.security;
+package com.szymon.todolist.reposotiry;
 
+import com.szymon.todolist.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

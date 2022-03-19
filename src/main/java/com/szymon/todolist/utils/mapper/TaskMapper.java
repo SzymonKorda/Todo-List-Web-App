@@ -1,8 +1,8 @@
-package com.szymon.todolist.mapper;
+package com.szymon.todolist.utils.mapper;
 
 import com.szymon.todolist.model.Task;
-import com.szymon.todolist.payload.FullTaskResponse;
-import com.szymon.todolist.payload.SimpleTaskResponse;
+import com.szymon.todolist.payload.response.FullTaskResponse;
+import com.szymon.todolist.payload.response.SimpleTaskResponse;
 
 public class TaskMapper {
     public static FullTaskResponse mapTaskToFullTaskResponse(Task task) {

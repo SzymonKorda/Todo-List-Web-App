@@ -1,4 +1,4 @@
-package com.szymon.todolist.payload;
+package com.szymon.todolist.payload.response;
 
 public class SimpleTaskResponse {
     private final Integer id;
@@ -8,7 +8,7 @@ public class SimpleTaskResponse {
     private SimpleTaskResponse(Builder builder) {
         this.id = builder.id;
         this.title = builder.title;
-        this.description = builder.description;;
+        this.description = builder.description;
     }
 
     public Integer getId() {

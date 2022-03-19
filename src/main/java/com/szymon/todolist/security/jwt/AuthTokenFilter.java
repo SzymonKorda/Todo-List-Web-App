@@ -1,4 +1,4 @@
-package com.szymon.todolist.security;
+package com.szymon.todolist.security.jwt;
 
 import java.io.IOException;
 
@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.szymon.todolist.security.user.UserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

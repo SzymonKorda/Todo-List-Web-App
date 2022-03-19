@@ -1,4 +1,6 @@
-package com.szymon.todolist.security;
+package com.szymon.todolist.model;
+
+import com.szymon.todolist.security.user.ERole;
 
 import javax.persistence.*;
 

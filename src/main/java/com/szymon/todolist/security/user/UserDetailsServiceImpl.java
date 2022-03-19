@@ -1,5 +1,7 @@
-package com.szymon.todolist.security;
+package com.szymon.todolist.security.user;
 
+import com.szymon.todolist.model.User;
+import com.szymon.todolist.reposotiry.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
