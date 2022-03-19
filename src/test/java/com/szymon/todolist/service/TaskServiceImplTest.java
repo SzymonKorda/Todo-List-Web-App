@@ -213,23 +213,24 @@ class TaskServiceImplTest {
     }
 
     private Task prepareTask(User user) {
-        return new Task.Builder()
-                .withTitle(TASK_TITLE)
-                .withDescription(TASK_DESCRIPTION)
-                .withUser(user)
+        return Task.builder()
+                .title(TASK_TITLE)
+                .description(TASK_DESCRIPTION)
+                .user(user)
                 .build();
     }
 
     private TaskRequest prepareTaskRequest(String title, String description) {
-        TaskRequest request = new TaskRequest();
-        request.setTitle(title);
-        request.setDescription(description);
-        return request;
+        return TaskRequest.builder()
+                .title(title)
+                .description(description)
+                .build();
     }
 
     private User prepareUser() {
-        User user = new User();
-        user.setId(USER_ID);
+        User user = User.builder()
+                .id(USER_ID)
+                .build();
         user.getTasks().addAll(List.of(prepareTask(user), prepareTask(user)));
         return user;
     }

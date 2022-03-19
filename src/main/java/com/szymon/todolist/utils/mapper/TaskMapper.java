@@ -6,19 +6,21 @@ import com.szymon.todolist.payload.response.SimpleTaskResponse;
 
 public class TaskMapper {
     public static FullTaskResponse mapTaskToFullTaskResponse(Task task) {
-        return new FullTaskResponse.Builder(task.getId())
-                .withTitle(task.getTitle())
-                .withDescription(task.getDescription())
-                .withCreatedOn(task.getCreatedOn())
-                .withFinishedOn(task.getFinishedOn())
-                .withIsActive(task.isActive())
+        return FullTaskResponse.builder()
+                .id(task.getId())
+                .title(task.getTitle())
+                .description(task.getDescription())
+                .createdOn(task.getCreatedOn())
+                .finishedOn(task.getFinishedOn())
+                .isActive(task.isActive())
                 .build();
     }
 
     public static SimpleTaskResponse mapTaskToSimpleTaskResponse(Task task) {
-        return new SimpleTaskResponse.Builder(task.getId())
-                .withTitle(task.getTitle())
-                .withDescription(task.getDescription())
+        return SimpleTaskResponse.builder()
+                .id(task.getId())
+                .title(task.getTitle())
+                .description(task.getDescription())
                 .build();
     }
 }

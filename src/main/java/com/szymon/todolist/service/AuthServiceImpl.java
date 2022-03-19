@@ -66,9 +66,11 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private void createUser(SignupRequest signUpRequest) {
-        User user = new User(signUpRequest.getUsername(),
-                signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+        User user = User.builder()
+                .username(signUpRequest.getUsername())
+                .email(signUpRequest.getEmail())
+                .password(encoder.encode(signUpRequest.getPassword()))
+                .build();
         Role userRole = roleRepository.findByName(ERole.ROLE_USER)
                 .orElseThrow(() -> new NotFoundException("Error: Role is not found."));
         user.getRoles().add(userRole);
@@ -77,12 +79,13 @@ public class AuthServiceImpl implements AuthService {
 
     private JwtResponse prepareJwtResponse(Authentication authentication) {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        return new JwtResponse(
-                jwtUtils.generateJwtToken(authentication),
-                userDetails.getId(),
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                prepareUserRoles(userDetails));
+        return JwtResponse.builder()
+                .accessToken(jwtUtils.generateJwtToken(authentication))
+                .id(userDetails.getId())
+                .username(userDetails.getUsername())
+                .email(userDetails.getEmail())
+                .roles(prepareUserRoles(userDetails))
+                .build();
     }
 
     private List<String> prepareUserRoles(UserDetailsImpl userDetails) {

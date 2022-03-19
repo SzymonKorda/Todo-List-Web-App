@@ -105,10 +105,10 @@ public class TaskServiceImpl implements TaskService {
     }
 
     private TaskCountResponse prepareTaskCountResponse(User user) {
-        TaskCountResponse taskCount = new TaskCountResponse();
-        taskCount.setActiveCount(user.getTasks().stream().filter(Task::isActive).count());
-        taskCount.setFinishedCount(user.getTasks().stream().filter(not(Task::isActive)).count());
-        return taskCount;
+        return TaskCountResponse.builder()
+                .activeCount(user.getTasks().stream().filter(Task::isActive).count())
+                .finishedCount((user.getTasks().stream().filter(not(Task::isActive)).count()))
+                .build();
     }
 
     private Task getTaskByUser(Integer id, User user) {
@@ -118,10 +118,10 @@ public class TaskServiceImpl implements TaskService {
     }
 
     private Task buildTask(TaskRequest taskRequest, User user) {
-        return new Task.Builder()
-                .withTitle(taskRequest.getTitle())
-                .withDescription(taskRequest.getDescription())
-                .withUser(user)
+        return Task.builder()
+                .title(taskRequest.getTitle())
+                .description(taskRequest.getDescription())
+                .user(user)
                 .build();
     }
 }

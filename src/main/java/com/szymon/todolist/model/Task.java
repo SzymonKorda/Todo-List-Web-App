@@ -1,10 +1,15 @@
 package com.szymon.todolist.model;
 
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "task")
 public class Task {
@@ -25,106 +30,11 @@ public class Task {
     @Column(name = "finished_on")
     private Date finishedOn;
 
+    @Builder.Default
     @Column(name = "is_active", nullable = false)
-    private boolean isActive;
+    private boolean isActive = true;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-    protected Task() {
-
-    }
-
-    private Task(Builder builder) {
-        this.title = builder.title;
-        this.description = builder.description;
-        this.user = builder.user;
-        this.isActive = true;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Date getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Date getFinishedOn() {
-        return finishedOn;
-    }
-
-    public void setFinishedOn(Date finishedOn) {
-        this.finishedOn = finishedOn;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
-    }
-
-    public boolean getActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean isActive) {
-        this.isActive = isActive;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public static class Builder {
-        private String title;
-        private String description;
-        private User user;
-
-        public Builder withTitle(String title) {
-            this.title = title;
-            return this;
-        }
-
-        public Builder withDescription(String description) {
-            this.description = description;
-            return this;
-        }
-
-        public Builder withUser(User user) {
-            this.user = user;
-            return this;
-        }
-
-        public Task build() {
-            return new Task(this);
-        }
-    }
 }
