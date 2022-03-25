@@ -1,13 +1,12 @@
 package com.szymon.todolist.controller;
 
-import com.szymon.todolist.payload.response.SimpleTaskResponse;
-import com.szymon.todolist.payload.response.TaskCountResponse;
 import com.szymon.todolist.payload.request.TaskRequest;
 import com.szymon.todolist.payload.response.FullTaskResponse;
+import com.szymon.todolist.payload.response.SimpleTaskResponse;
+import com.szymon.todolist.payload.response.TaskCountResponse;
 import com.szymon.todolist.service.TaskService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,12 +21,15 @@ import java.util.List;
 @Api(tags = "Tasks")
 public class TaskController {
 
-    @Autowired
-    private TaskService taskService;
+    private final TaskService taskService;
+
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
 
     @ApiOperation(value = "This method is used to create a new task.")
     @PostMapping("/task")
-    @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> createTask(@Valid @RequestBody TaskRequest taskRequest) {
         taskService.newTask(taskRequest);
         return new ResponseEntity<>("Task created successfully!", HttpStatus.CREATED);
@@ -86,7 +88,7 @@ public class TaskController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> finishTask(@PathVariable Integer id) {
         taskService.finishTask(id);
-        return new ResponseEntity<>("Task finished successfully!", HttpStatus.CREATED);
+        return new ResponseEntity<>("Task finished successfully!", HttpStatus.OK);
     }
 
     @ApiOperation(value = "This method is used to get user's finished and active task count")

@@ -10,10 +10,10 @@ import javax.validation.constraints.Size;
 public class TaskRequest {
     @NotBlank(message = "Title can't be empty!")
     @Size(max = 50)
-    private String title;
+    private final String title;
 
     @NotBlank(message = "Description can't be empty!")
     @Size(max = 200)
-    private String description;
+    private final String description;
 
 }
