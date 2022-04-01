@@ -29,7 +29,7 @@ public class TaskController {
 
     @ApiOperation(value = "This method is used to create a new task.")
     @PostMapping("/task")
-//    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> createTask(@Valid @RequestBody TaskRequest taskRequest) {
         taskService.newTask(taskRequest);
         return new ResponseEntity<>("Task created successfully!", HttpStatus.CREATED);
