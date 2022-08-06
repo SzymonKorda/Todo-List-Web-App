@@ -3,7 +3,7 @@ version: '3.7'
 services:
   app-server:
     build:
-      context: TodoList-backend
+      context: .
       dockerfile: Dockerfile
     ports:
       - "9080:8080"
@@ -20,7 +20,7 @@ services:
 
   app-client:
     build:
-      context: TodoList-frontend
+      context: ../TodoList-frontend
       dockerfile: Dockerfile
     ports:
       - "9090:3000"
