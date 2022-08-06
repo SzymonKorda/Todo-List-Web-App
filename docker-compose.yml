@@ -20,7 +20,7 @@ services:
 
   app-client:
     build:
-      context: TodoList-backend
+      context: TodoList-frontend
       dockerfile: Dockerfile
     ports:
       - "9090:3000"
