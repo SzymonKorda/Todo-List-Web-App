@@ -1,5 +1,6 @@
 package com.szymon.todolist.config.swagger;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,9 @@ import java.util.List;
 @Configuration
 public class SwaggerConfiguration {
 
+    @Value("${swagger.host}")
+    private String swaggerHost;
+
     private ApiKey apiKey() {
         return new ApiKey("JWT", "Authorization", "header");
     }
@@ -24,6 +28,7 @@ public class SwaggerConfiguration {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .host(swaggerHost)
                 .apiInfo(apiInfo())
                 .securityContexts(Arrays.asList(securityContext()))
                 .securitySchemes(Arrays.asList(apiKey()))
