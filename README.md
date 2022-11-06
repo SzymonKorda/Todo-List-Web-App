@@ -1,11 +1,11 @@
 # Todolist-backend
 Backend for simple tasks managing web application.
 
-API documentation:
-https://todolist-backend.cytr.us/swagger-ui/
-
 Application demo:
-https://todolist.cytr.us/
+https://todolist.skorda.pl/
+
+API documentation:
+https://api.todolist.skorda.pl/swagger-ui/#
 
 Used technologies: 
 - Java 11,
