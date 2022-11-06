@@ -1,52 +1,36 @@
-version: '3.7'
+version: '3'
 
 services:
-  app-server:
+  backend:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "9080:8080"
+      - "8080:8080"
+    container_name: todolist-backend
     depends_on:
-      - db
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/todolist
-      - SPRING_DATASOURCE_USERNAME=todolist
-      - SPRING_DATASOURCE_PASSWORD=root
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
-      - SWAGGER.HOST=api.todolist.skorda.pl
-    networks:
-      - backend
-      - frontend
+      - database
+    env_file:
+      ./env/backend.env
 
-  app-client:
+  frontend:
     build:
       context: ../TodoList-frontend
       dockerfile: Dockerfile
     ports:
-      - "9090:3000"
-    restart: always
+      - "3000:3000"
+    container_name: todolist-frontend
     depends_on:
-      - app-server
-    networks:
-      - frontend
-
-  db:
-    image: 'postgres:14-alpine'
-    ports:
-      - "5462:5432"
-    environment:
-      - POSTGRES_USER=todolist
-      - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=todolist
-    volumes:
-      - db-data:/var/lib/postgresql
-    networks:
       - backend
 
+  database:
+    image: 'postgres:14-alpine'
+    ports:
+      - "5432:5432"
+    container_name: todolist-database
+    env_file:
+      ./env/postgres.env
+    volumes:
+      - todolist_data:/var/lib/postgresql/data
 volumes:
-  db-data:
-
-networks:
-  backend:
-  frontend:
+  todolist_data:
