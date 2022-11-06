@@ -9,7 +9,7 @@ https://api.todolist.skorda.pl/swagger-ui/#
 
 To start application please proceed with following steps:
 1. Clone backend and frontend repositories on your local machine
-2. Install docker and execute following commands in project folder:
+2. Install docker and execute following command in backend project folder:
 
   ```bash
   docker-compose up
