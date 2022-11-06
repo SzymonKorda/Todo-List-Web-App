@@ -7,6 +7,14 @@ https://todolist.skorda.pl/
 API documentation:
 https://api.todolist.skorda.pl/swagger-ui/#
 
+To start application please proceed with following steps:
+1. Clone backend and frontend repositories on your local machine
+2. Install docker and execute following commands in project folder:
+
+  ```bash
+  docker-compose up
+  ```
+
 Used technologies: 
 - Java 11,
 - Spring Boot, 
